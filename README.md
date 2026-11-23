@@ -173,7 +173,7 @@ El árbol inicial contiene plantillas y puntos de entrada (`.env.example`, Compo
 ```bash
 # Flujo de desarrollo
 cp .env.example .env
-docker compose up --build
+docker compose up --build -d
 ```
 
 Después deben ejecutarse migraciones/seed y verificarse los 500 perfiles. Los secretos y datos de desarrollo deben permanecer fuera del control de versiones.

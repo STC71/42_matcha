@@ -1,2 +1,0 @@
--- Matcha seed entry point.
--- The final seed must create at least 500 distinct profiles.

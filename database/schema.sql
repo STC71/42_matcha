@@ -1,2 +1,0 @@
--- Matcha schema entry point.
--- Keep credentials in .env and create queries explicitly.
