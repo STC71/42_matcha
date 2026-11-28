@@ -195,8 +195,8 @@ Después deben ejecutarse migraciones/seed y verificarse los 500 perfiles. Los s
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [MDN Web Docs](https://developer.mozilla.org/)
 - [PostgreSQL documentation](https://www.postgresql.org/docs/)
-- [Enunciado de Matcha](./en.subject.pdf)
-- [Guía de evaluación](./en_eval.pdf)
+- [test_auto](./test_auto.sh)
+- [test_eval](./test_eval.sh)
 
 ---
 
@@ -204,6 +204,6 @@ Después deben ejecutarse migraciones/seed y verificarse los 500 perfiles. Los s
 
 ## 👤 Autor
 
-**sternero** · 42 Málaga · [GitHub @STC71](https://github.com/STC71)
+42 Málaga · **aternero & sternero** · Diciembre 2026
 
 [⬆️ Volver arriba](#-matcha--dating-web-application)

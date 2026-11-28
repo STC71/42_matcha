@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+<!--    Usamos {} para que jinja2 pueda interpretar el código y no se rompa el html. 
+        jinja2 es un motor de plantillas para Python que permite generar HTML dinámico a partir de plantillas y datos.
+        extends sirve para heredar de otra plantilla, en este caso base.html, que contiene la estructura básica de la página.
+        Los %% indican bloques de código que jinja2 debe procesar. En este caso, se procesa base.html y se reemplazan 
+        los bloques title y content con el contenido definido en esta plantilla.  -->
+{% block title %}Matcha — Find your match{% endblock %}
+<!--    block title sirve para definir el título de la página, que se mostrará en la pestaña del navegador. 
+        En este caso, el título es "Matcha — Find your match".  
+        Se trata de una instrucción de jinja2 que indica que el contenido del bloque title será reemplazado por el contenido 
+        definido en esta plantilla, en concreto, "Matcha — Find your match".  -->
+{% block content %}
+<!--    block content sirve para definir el contenido principal de la página, que se mostrará en el cuerpo del HTML. 
+        En este caso, el contenido es un div con varias clases de Tailwind CSS que definen el estilo y la disposición de los elementos. 
+        El div contiene un span con un mensaje, un h1 con un título, un p con una descripción y dos enlaces a las páginas de registro 
+        y login.  
+        Se trata de una instrucción de jinja2 que indica que el contenido del bloque content será reemplazado por el contenido 
+        definido en esta plantilla, en concreto, el div con los elementos mencionados.  -->
+<div class="mx-auto max-w-7xl px-6 py-24 text-center">
+    <span class="rounded-full bg-matcha-500/10 px-3 py-1 text-sm font-semibold text-matcha-600">
+        🍵 Because love, too, can be industrialized
+    </span>
+    <h1 class="mt-8 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+        Find meaningful connections
+    </h1>
+    <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+        Matcha helps you discover people who share your interests, values and location.
+    </p>
+    <div class="mt-10 flex items-center justify-center gap-x-6">
+        <a href="{{ url_for('auth.register') }}"
+           class="rounded-md bg-matcha-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-matcha-500">
+            Create account
+        </a>
+        <a href="{{ url_for('auth.login') }}" class="text-sm font-semibold text-gray-900">
+            Log in →
+        </a>
+    </div>
+</div>
+{% endblock %}
+<!--    endblock indica el final del bloque content.  -->
+
+<!--    En resumen, esta plantilla define el contenido de la página de inicio de Matcha, heredando la estructura básica de base.html 
+        y reemplazando los bloques title y content con el contenido específico de esta página.  -->

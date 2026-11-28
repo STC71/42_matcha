@@ -1,13 +1,85 @@
 services:
+  # ----------------------------------------------------------
+  # Base de datos PostgreSQL
+  # ----------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    container_name: matcha_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-matcha}
+      POSTGRES_USER: ${POSTGRES_USER:-matcha}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-matcha_secret_change_me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-matcha} -d ${POSTGRES_DB:-matcha}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ----------------------------------------------------------
+  # Redis (para SocketIO en producción / message queue)
+  # ----------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: matcha_redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ----------------------------------------------------------
+  # MailHog - captura los emails en desarrollo
+  # Interfaz web: http://localhost:8025
+  # ----------------------------------------------------------
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: matcha_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+
+  # ----------------------------------------------------------
+  # Aplicación Flask
+  # ----------------------------------------------------------
   app:
     build: .
+    container_name: matcha_app
+    restart: unless-stopped
     env_file: .env
     volumes:
-      - .:/app
+      - ./app:/app/app
+      - ./uploads:/app/uploads
+      - ./database:/app/database
+      - ./wsgi.py:/app/wsgi.py
     ports:
-      - "3000:3000"
+      - "5000:5000"
     depends_on:
-      - database
-  database:
-    image: postgres:16-alpine
-    env_file: .env
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+
+volumes:
+  postgres_data:
+
+# ----------------------------------------------------------
+# En resumen, qué hace este archivo:
+# Qué hace este archivo:
+# Orquesta los 4 servicios que necesitamos:
+#   db → PostgreSQL (con el schema se carga automáticamente al primer arranque)
+#   redis → para el message queue de SocketIO
+#   mailhog → captura todos los emails (verificación y reset de contraseña) en desarrollo
+#   app → nuestra aplicación Flask
+# ----------------------------------------------------------

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Login — Matcha{% endblock %}
+{% block content %}
+<div class="min-h-[70vh] flex items-center justify-center py-12 px-4">
+  <div class="max-w-md w-full space-y-8">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-900">Welcome back</h2>
+      <p class="mt-2 text-sm text-gray-600">Sign in to your Matcha account</p>
+    </div>
+    <form class="mt-8 space-y-6" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Username</label>
+        <input name="username" type="text" required
+               class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-matcha-500 focus:ring-matcha-500">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Password</label>
+        <input name="password" type="password" required
+               class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-matcha-500 focus:ring-matcha-500">
+      </div>
+      <div class="flex justify-between text-sm">
+        <a href="{{ url_for('auth.forgot_password') }}" class="text-matcha-600 hover:underline">Forgot password?</a>
+      </div>
+      <button type="submit"
+              class="w-full py-2.5 px-4 rounded-md text-sm font-medium text-white bg-matcha-600 hover:bg-matcha-700">
+        Sign in
+      </button>
+    </form>
+    <p class="text-center text-sm text-gray-600">
+      No account? <a href="{{ url_for('auth.register') }}" class="font-medium text-matcha-600 hover:underline">Create one</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
